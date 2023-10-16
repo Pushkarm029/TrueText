@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {Text, View} from 'react-native';
 
 // Screens
 import News from '../screens/News';
@@ -39,6 +40,13 @@ const Tab = createBottomTabNavigator();
 const BottomTab = () => {
   return (
     <NavigationContainer>
+      {/* Header */}
+      <View className="p-1">
+        <Text className="text-2xl font-serif text-[#0096FF] font-black p-2">
+          TrueText
+        </Text>
+      </View>
+      {/* ------ */}
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -68,6 +76,8 @@ const BottomTab = () => {
           component={Sms}
           options={{
             tabBarIcon: SmsTabIcon,
+            // tabBarBadge: 3,
+            // tabBarBadgeStyle: {backgroundColor: '#0096FF'},
           }}
         />
         <Tab.Screen
