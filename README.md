@@ -1,79 +1,104 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# True Text
 
-# Getting Started
+#### TrueText: Your Guardian Against SMS Scams and Your Source for Latest News
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+In a world where SMS messages can hide potential scams and spam, From fake electricity bill alerts to suspicious lottery winnings and phishing scams, the world of SMS is fraught with potential pitfalls. Unsuspecting users often fall victim to scams and spam that threaten their privacy, security, and peace of mind. TrueText is your vigilant guardian. Our app doesn't send or receive messages but loads your SMS inbox, identifying scams, fraud, and spam to provide immediate alerts and educational resources, ensuring a safer SMS experience. TrueText prioritizes your privacy, respecting your data security while offering the latest news through a dedicated section, keeping you informed on global events and personalized interests. Join TrueText to protect yourself and stay well-informed, all within a single app.
+<hr>
 
-## Step 1: Start the Metro Server
+## Project Setup
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+### Prerequisites
 
-To start Metro, run the following command from the _root_ of your React Native project:
+Before you start, ensure that you have the following installed on your local machine:
 
-```bash
-# using npm
-npm start
+- Node.js and npm (Node Package Manager)
+- Git
 
-# OR using Yarn
-yarn start
-```
+### Clone the Repository
 
-## Step 2: Start your Application
+1. Fork the repository: Click the "Fork" button on the top right of the [TrueText GitHub repository](https://github.com/Pushkarm029/TrueText) to create a fork under your GitHub account.
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
+2. Clone the forked repository to your local machine:
 
 ```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+git clone git@github.com:YourGitHubUsername/TrueText.git
+cd TrueText
 ```
 
-### For iOS
+### Install Dependencies
+
+In the project directory, run the following command to install project dependencies:
 
 ```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+npm install
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+### Start the Development Server
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+To start the development server and run your React Native project, use the following command:
 
-## Step 3: Modifying your App
+```bash
+npx react-native start
+```
 
-Now that you have successfully run the app, let's modify it.
+## Contribution Guidelines
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+We welcome contributions from the community to improve TrueText. To contribute, please follow these guidelines:
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+### Branching
 
-## Congratulations! :tada:
+1. Create a new branch for your contribution. Be sure to give it a descriptive and concise name:
 
-You've successfully run and modified your React Native App. :partying_face:
+```bash
+git checkout -b feature/your-feature-name
+```
 
-### Now what?
+2. Make your changes in the new branch.
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+### Committing
 
-# Troubleshooting
+3. Commit your changes with a clear and concise commit message:
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+```bash
+git commit -m "Add your description here"
+```
 
-# Learn More
+### Keeping Your Fork Up to Date
 
-To learn more about React Native, take a look at the following resources:
+4. Before pushing your changes, ensure that your branch is up to date with the latest changes from the original repository:
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+```bash
+git pull origin main
+```
+
+5. Push your changes to your forked repository:
+
+```bash
+git push origin feature/your-feature-name
+```
+
+### Creating a Pull Request (PR)
+
+6. Go to your forked repository on GitHub and create a new Pull Request (PR) from your branch to the original project's `main` branch.
+
+7. Describe your changes in the PR, explaining what the changes aim to achieve.
+
+### Review and Approval
+
+8. Your PR will be reviewed, and there may be discussions and suggestions for improvement. Be open to feedback and make any necessary changes.
+
+9. Once your PR is approved, it will be merged into the original project. Your contribution will be acknowledged in the project's history.
+
+### Keeping Your Fork in Sync
+
+10. To keep your fork up to date with the original repository, regularly sync with the original project:
+
+```bash
+git fetch upstream
+git checkout main
+git merge upstream/main
+```
+
+Congratulations! You've successfully contributed to the TrueText project. Thank you for your valuable input.
+
+Please make sure to adapt and refine these guidelines according to your specific project's needs and structure. Make sure to keep your README updated with the latest information to facilitate contributions from the community.
