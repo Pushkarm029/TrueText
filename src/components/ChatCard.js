@@ -1,6 +1,6 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-
 const ChatCard = ({name, msg, id}) => {
   //first letter of the name for the profile picture
   const profilePicture = name.charAt(0);
@@ -40,21 +40,19 @@ const ChatCard = ({name, msg, id}) => {
     }
     return '#d90429';
   }
-  const [isPressed, setIsPressed] = useState(false);
-
   //   Profile pic random color
   const backgroundColor = getAlphabeticColor(profilePicture.toLowerCase());
 
   // first 55 characters in msgs
   const truncatedMsg = msg.length > 55 ? msg.slice(0, 55) + '...' : msg;
+  const navigation = useNavigation();
 
-  const handlePress = () => {
-    console.log('btn clicked');
+  const handlePress = id => {
+    navigation.navigate('Detail', {id: id, name: name, msg: msg});
   };
-
   return (
     <TouchableOpacity
-      onPress={handlePress}
+      onPress={() => handlePress(id)}
       className="flex flex-row align-middle p-1 m-2 bg-white"
       activeOpacity={0.1}>
       <View
