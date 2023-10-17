@@ -100,5 +100,3 @@ git merge upstream/main
 ```
 
 Congratulations! You've successfully contributed to the TrueText project. Thank you for your valuable input.
-
-Please make sure to adapt and refine these guidelines according to your specific project's needs and structure. Make sure to keep your README updated with the latest information to facilitate contributions from the community.
