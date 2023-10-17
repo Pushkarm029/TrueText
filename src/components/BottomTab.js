@@ -83,6 +83,7 @@ const BottomTab = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        initialRouteName="Sms"
         screenOptions={{
           headerShown: true,
           headerTintColor: '#0096FF',
