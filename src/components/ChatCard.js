@@ -1,9 +1,36 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-const ChatCard = ({name, msg, id}) => {
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
+const ChatCard = ({name, msg, id, dateTime}) => {
   //first letter of the name for the profile picture
   const profilePicture = name.charAt(0);
+
+  const DateOrTime = timestamp => {
+    const messageDate = new Date(parseInt(timestamp, 10));
+    const currentDate = new Date();
+    if (
+      messageDate.getDate() === currentDate.getDate() &&
+      messageDate.getMonth() === currentDate.getMonth() &&
+      messageDate.getFullYear() === currentDate.getFullYear()
+    ) {
+      // Message was received today, display time in "HH:mm" format
+      return `${String(messageDate.getHours()).padStart(2, '0')}:${String(
+        messageDate.getMinutes(),
+      ).padStart(2, '0')}`;
+    } else {
+      // Message was not received today, display date in "MMM dd" format
+      return messageDate.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      });
+    }
+  };
 
   function getAlphabeticColor(char) {
     // fixed colors for alphabets
@@ -48,7 +75,12 @@ const ChatCard = ({name, msg, id}) => {
   const navigation = useNavigation();
 
   const handlePress = id => {
-    navigation.navigate('Detail', {id: id, name: name, msg: msg});
+    navigation.navigate('Detail', {
+      id: id,
+      name: name,
+      msg: msg,
+      dateTime: dateTime,
+    });
   };
   return (
     <TouchableOpacity
@@ -61,9 +93,14 @@ const ChatCard = ({name, msg, id}) => {
         <Text className="text-white text-[20px]">{profilePicture}</Text>
       </View>
       <View className="ml-[10px] flex-1">
-        <Text className="text-[16px] font-semibold text-slate-600 ">
-          {name} {id}
-        </Text>
+        <View className="flex flex-row justify-between">
+          <Text className="text-[16px] font-semibold text-slate-600 ">
+            {name}
+          </Text>
+          <Text className=" absolute left-[81%] bottom-0 text-slate-600 text-[11px] ">
+            {DateOrTime(dateTime)}
+          </Text>
+        </View>
         <Text className="text-[14px] text-[#666] ">{truncatedMsg}</Text>
       </View>
     </TouchableOpacity>

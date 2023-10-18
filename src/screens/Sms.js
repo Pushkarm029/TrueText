@@ -1,189 +1,108 @@
-import {View, Text, FlatList} from 'react-native';
-import React from 'react';
-import ChatCard from '../components/ChatCard';
+import React, {useEffect, useState} from 'react';
 import Octicons from 'react-native-vector-icons/Octicons';
-
-const data = [
-  {
-    name: 'Ayush',
-    id: 1,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Pushkar',
-    id: 2,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Dugar',
-    id: 3,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Sahil',
-    id: 4,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Ayush',
-    id: 5,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Pushkar',
-    id: 6,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Dugar',
-    id: 7,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Sahil',
-    id: 8,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Ayush',
-    id: 9,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Pushkar',
-    id: 10,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Dugar',
-    id: 11,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Sahil',
-    id: 12,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Ayush',
-    id: 13,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Pushkar',
-    id: 14,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Dugar',
-    id: 15,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Sahil',
-    id: 16,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Ayush',
-    id: 17,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Pushkar',
-    id: 18,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Dugar',
-    id: 19,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Sahil',
-    id: 20,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Ayush',
-    id: 21,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Pushkar',
-    id: 22,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Dugar',
-    id: 23,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Sahil',
-    id: 24,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Ayush',
-    id: 25,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Pushkar',
-    id: 26,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Dugar',
-    id: 27,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Sahil',
-    id: 28,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Ayush',
-    id: 29,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Pushkar',
-    id: 30,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Dugar',
-    id: 31,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-  {
-    name: 'Sahil',
-    id: 32,
-    msg: 'Culpa proident magna aliquip sint duis cillum. Laborum fugiat ut',
-  },
-];
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  RefreshControl,
+  Button,
+} from 'react-native';
+import SmsAndroid from 'react-native-get-sms-android';
+import ChatCard from '../components/ChatCard';
+import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
 const Sms = () => {
+  const [smsMessages, setSmsMessages] = useState([]);
+  const [loading, setLoading] = useState(false); // Initialize loading as false
+  const [showPermissionButton, setShowPermissionButton] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const checkAndRequestSmsPermission = async () => {
+    const smsPermissionStatus = await request(PERMISSIONS.ANDROID.READ_SMS);
+
+    if (smsPermissionStatus === RESULTS.GRANTED) {
+      // Permission granted, fetch SMS messages
+      listSmsMessages();
+    } else if (smsPermissionStatus === RESULTS.DENIED) {
+      console.log('SMS permission denied');
+      // Handle permission denial and don't enter the loading state
+      setShowPermissionButton(true);
+    }
+  };
+
+  const listSmsMessages = () => {
+    const filter = {
+      box: 'inbox',
+      maxCount: 1550,
+    };
+
+    setLoading(true); // Set loading to true while fetching data
+
+    SmsAndroid.list(
+      JSON.stringify(filter),
+      fail => {
+        console.log('Failed with this error: ' + fail);
+        setLoading(false); // Handle loading state on error
+      },
+      (count, smsList) => {
+        console.log('Count: ', count);
+        console.log('List: ', smsList);
+        const arr = JSON.parse(smsList);
+
+        // Update the state with the SMS messages and handle loading state
+        setSmsMessages(arr);
+        setLoading(false); // Set loading to false when data is loaded
+      },
+    );
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await checkAndRequestSmsPermission();
+    setRefreshing(false);
+  };
+
+  const requestPermissionAgain = async () => {
+    console.log('called');
+    const smsPermissionStatus = await request(PERMISSIONS.ANDROID.READ_SMS);
+    checkAndRequestSmsPermission();
+    if (smsPermissionStatus === RESULTS.GRANTED) {
+      setShowPermissionButton(false);
+      listSmsMessages();
+    }
+  };
+  useEffect(() => {
+    console.log(showPermissionButton);
+    checkAndRequestSmsPermission();
+  }, []);
   return (
-    <View className="bg-white h-screen mx-5 mt-6 rounded-xl drop-shadow-xl ">
-      <View className="absolute left-[45%] mx-auto top-0">
-        <Octicons name="horizontal-rule" size={30} color={'#808080'} />
+    <View className="bg-white h-screen mx-5 mt-6 rounded-xl drop-shadow-xl">
+      <View className="items-center">
+        <Octicons name="horizontal-rule" size={30} color={'grey'} />
       </View>
-      <View className="h-8 mt-4">
-        <Text className="px-4 text-lg font-bold text-slate-800 ">
-          Recent Text
-        </Text>
-      </View>
-      <FlatList
-        data={data}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({item}) => (
-          <ChatCard name={item.name} msg={item.msg} id={item.id} />
-        )}
-      />
+      {showPermissionButton ? (
+        <Button title="Allow Access" onPress={requestPermissionAgain} />
+      ) : (
+        <FlatList
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          data={smsMessages}
+          keyExtractor={item => item._id.toString()}
+          renderItem={({item}) => (
+            <ChatCard
+              name={item.address}
+              msg={item.body}
+              id={item._id}
+              dateTime={item.date}
+            />
+          )}
+          initialNumToRender={50}
+          maxToRenderPerBatch={30}
+          ListFooterComponent={() => loading && <ActivityIndicator />}
+        />
+      )}
       <View className="h-14 my-16"></View>
     </View>
   );

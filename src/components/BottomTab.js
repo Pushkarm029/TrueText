@@ -6,15 +6,16 @@ import {
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Text, View, Image} from 'react-native';
 
 // Screens
 import News from '../screens/News';
 import Sms from '../screens/Sms';
-import Profile from '../screens/Profile';
 import {createStackNavigator} from '@react-navigation/stack';
 import DetailScreen from '../screens/DetailScreen';
 import CustomHeader from './CustomHeader';
+import MsgCheck from '../screens/MsgCheck';
 
 // Icons
 const NewsTabIcon = ({focused, color}) => (
@@ -37,6 +38,14 @@ const ProfileIcon = ({focused, color}) => (
   <AntDesign
     name="user"
     size={focused ? 30 : 26}
+    color={focused ? '#0096FF' : '#858EA9'}
+  />
+);
+
+const MsgCheckIcon = ({focused, color}) => (
+  <MaterialCommunityIcons
+    name="comment-check-outline"
+    size={focused ? 32 : 28}
     color={focused ? '#0096FF' : '#858EA9'}
   />
 );
@@ -121,11 +130,11 @@ const BottomTab = () => {
           })}
         />
         <Tab.Screen
-          name="Profile"
-          component={Profile}
+          name="Check"
+          component={MsgCheck}
           options={{
             headerShown: true,
-            tabBarIcon: ProfileIcon,
+            tabBarIcon: MsgCheckIcon,
             headerLeft: () => <CustomHeader />,
           }}
         />
