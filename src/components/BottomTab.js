@@ -85,7 +85,6 @@ const BottomTab = () => {
       <Tab.Navigator
         initialRouteName="Sms"
         screenOptions={{
-          headerShown: true,
           headerTintColor: '#0096FF',
           tabBarShowLabel: false,
           tabBarStyle: {
@@ -105,6 +104,7 @@ const BottomTab = () => {
           name="News"
           component={News}
           options={{
+            headerShown: true,
             tabBarIcon: NewsTabIcon,
             headerLeft: () => <CustomHeader />,
           }}
@@ -124,6 +124,7 @@ const BottomTab = () => {
           name="Profile"
           component={Profile}
           options={{
+            headerShown: true,
             tabBarIcon: ProfileIcon,
             headerLeft: () => <CustomHeader />,
           }}

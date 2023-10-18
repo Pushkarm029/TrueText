@@ -170,7 +170,7 @@ const Sms = () => {
   return (
     <View className="bg-white h-screen mx-5 mt-6 rounded-xl drop-shadow-xl ">
       <View className="absolute left-[45%] mx-auto top-0">
-        <Octicons name="horizontal-rule" size={30} />
+        <Octicons name="horizontal-rule" size={30} color={'#808080'} />
       </View>
       <View className="h-8 mt-4">
         <Text className="px-4 text-lg font-bold text-slate-800 ">
