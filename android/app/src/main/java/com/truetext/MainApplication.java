@@ -11,6 +11,8 @@ import com.facebook.soloader.SoLoader;
 import java.util.List;
 // react-native-splash-screen >= 0.3.1
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.react.SmsPackage;
+
 
 
 public class MainApplication extends Application implements ReactApplication {
@@ -30,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
            new SplashScreenReactPackage();  //here
+           new SmsPackage();
           return packages;
         }
 
