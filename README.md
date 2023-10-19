@@ -24,8 +24,9 @@ Before you start, ensure that you have the following installed on your local mac
 git clone git@github.com:YourGitHubUsername/TrueText.git
 cd TrueText
 ```
+### Frontend Setup
 
-### Install Dependencies
+#### Install Dependencies
 
 In the project directory, run the following command to install project dependencies:
 
@@ -33,12 +34,28 @@ In the project directory, run the following command to install project dependenc
 npm install
 ```
 
-### Start the Development Server
+#### Start the Development Server
 
 To start the development server and run your React Native project, use the following command:
 
 ```bash
 npx react-native start
+```
+
+### Backend Setup
+
+#### Install Dependencies
+```bash
+# Navigate to the server directory
+cd server
+
+# To install the required packages, run the following command:
+pip install -r requirements.txt
+
+# Run the development server
+python app.py
+
+# The server will run on http://localhost:5000
 ```
 
 ## Contribution Guidelines
