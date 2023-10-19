@@ -13,6 +13,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 
 import Config from 'react-native-config';
+import LoadingAnimation from '../components/LoadingAnimation';
+import LoadingAnimationY from '../components/LoadingAnimationY';
 
 // Access your API keys like this:
 const API_KEY = Config.API_KEY;
@@ -104,50 +106,71 @@ const News = () => {
             <FontAwesome5 name="fire" size={20} color={'#1434A4'} />
           </View>
         </View>
-        <FlatList
-          className="m-1"
-          horizontal={true}
-          data={trendingNews}
-          keyExtractor={item => item.article_id.toString()}
-          renderItem={({item}) => (
-            <NewsCardX
-              title={item.title}
-              link={item.link}
-              image_url={item.image_url}
-            />
-          )}
-        />
+        {trendingNews.length > 0 ? (
+          <FlatList
+            className="m-1"
+            horizontal={true}
+            data={trendingNews}
+            keyExtractor={item => item.article_id.toString()}
+            renderItem={({item}) => (
+              <NewsCardX
+                title={item.title}
+                link={item.link}
+                image_url={item.image_url}
+              />
+            )}
+          />
+        ) : (
+          <View className="flex flex-row">
+            <LoadingAnimation />
+            <LoadingAnimation />
+          </View>
+        )}
       </SafeAreaView>
       <SafeAreaView>
         <Text className="text-xl font-bold text-red-800 mx-2">Scams!</Text>
-        <FlatList
-          className="m-1"
-          horizontal={true}
-          data={scamNews}
-          keyExtractor={item => item.article_id.toString()}
-          renderItem={({item}) => (
-            <NewsCardX
-              title={item.title}
-              link={item.link}
-              image_url={item.image_url}
-            />
-          )}
-        />
+        {scamNews.length > 0 ? (
+          <FlatList
+            className="m-1"
+            horizontal={true}
+            data={scamNews}
+            keyExtractor={item => item.article_id.toString()}
+            renderItem={({item}) => (
+              <NewsCardX
+                title={item.title}
+                link={item.link}
+                image_url={item.image_url}
+              />
+            )}
+          />
+        ) : (
+          <View className="flex flex-row">
+            <LoadingAnimation />
+            <LoadingAnimation />
+          </View>
+        )}
       </SafeAreaView>
       <SafeAreaView>
         <Text className="text-lg font-bold text-blue-800 mx-2"> Latest </Text>
-        <FlatList
-          className="m-1"
-          data={latestNews}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item}) => (
-            <NewsCardY
-              title={item.title}
-              link={item.url}
-              image_url={item.urlToImage}
-            />
-          )}
-        />
+        {latestNews.length > 0 ? (
+          <FlatList
+            className="m-1"
+            data={latestNews}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item}) => (
+              <NewsCardY
+                title={item.title}
+                link={item.url}
+                image_url={item.urlToImage}
+              />
+            )}
+          />
+        ) : (
+          <View>
+            <LoadingAnimationY />
+            <LoadingAnimationY />
+          </View>
+        )}
       </SafeAreaView>
     </ScrollView>
   );
