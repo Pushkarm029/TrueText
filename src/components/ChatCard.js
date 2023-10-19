@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 const ChatCard = ({name, msg, id, dateTime}) => {
   //first letter of the name for the profile picture
-  const profilePicture = name.charAt(0);
+  const firstCharacterIsAlphabet = /^[A-Za-z]/.test(name.charAt(0));
+  const profilePicture = firstCharacterIsAlphabet ? name.charAt(0) : '?';
 
   const DateOrTime = timestamp => {
     const messageDate = new Date(parseInt(timestamp, 10));
@@ -65,7 +66,7 @@ const ChatCard = ({name, msg, id, dateTime}) => {
     if (char in colors) {
       return colors[char];
     }
-    return '#d90429';
+    return '#FF474C';
   }
   //   Profile pic random color
   const backgroundColor = getAlphabeticColor(profilePicture.toLowerCase());
