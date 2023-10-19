@@ -1,29 +1,54 @@
-import {View, Text, ScrollView, SafeAreaView} from 'react-native';
-import React from 'react';
-import img1 from '../assets/dummyNews1.png';
-import img2 from '../assets/dummyNews2.png';
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  RefreshControl,
+  FlatList,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import NewsCardX from '../components/NewsCardX';
 import NewsCardY from '../components/NewsCardY';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import axios from 'axios';
+
+const API_KEY = 'pub_31460f6837fbe6e5985d855312f8f03faf51b';
+
 const News = () => {
-  const newsData = [
-    {
-      headline: 'scam 1 alert',
-      id: '1',
-      content:
-        'Laborum incididunt ex adipisicing et tempor ut cillum id. Minim qui sint tempor enim exercitation velit et commodo est. Commodo elit nostrud aliqua qui cillum ullamco officia aute irure. Pariatur mollit Lorem tempor eu non aute sint proident ipsum labore. Magna consectetur minim qui deserunt enim minim aute sint aliquip deserunt consequat deserunt id ullamco. Est nostrud eu pariatur nulla.',
-      urlToImage: {img1},
-    },
-    {
-      headline: 'scam 2 alert',
-      id: '2',
-      content:
-        'Laborum incididunt ex adipisicing et tempor ut cillum id. Minim qui sint tempor enim exercitation velit et commodo est. Commodo elit nostrud aliqua qui cillum ullamco officia aute irure. Pariatur mollit Lorem tempor eu non aute sint proident ipsum labore. Magna consectetur minim qui deserunt enim minim aute sint aliquip deserunt consequat deserunt id ullamco. Est nostrud eu pariatur nulla.',
-      urlToImage: {img2},
-    },
-  ];
+  const [trendingNews, settrendingNews] = useState([]);
+
+  const fetchNews = async category => {
+    try {
+      const response = await axios.get(`https://newsdata.io/api/1/news`, {
+        params: {
+          apikey: API_KEY,
+          q: category,
+          country: 'in',
+          language: 'en',
+          image: 1,
+        },
+      });
+      settrendingNews(response.data.results);
+      console.log(response.data.results[0].article_id);
+    } catch (error) {
+      console.log('err', error);
+    }
+  };
+  useEffect(() => {
+    fetchNews('breaking');
+  }, []);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = async () => {
+    setRefreshing(true);
+    fetchNews('breaking');
+    setRefreshing(false);
+  };
+
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <SafeAreaView>
         <View className="flex flex-row m-2">
           <Text className="text-xl  font-bold text-blue-800">Trending</Text>
@@ -31,29 +56,23 @@ const News = () => {
             <FontAwesome5 name="fire" size={20} color={'#1434A4'} />
           </View>
         </View>
-        <ScrollView horizontal={true} className="m-1">
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-        </ScrollView>
+        <FlatList
+          className="m-1"
+          horizontal={true}
+          data={trendingNews}
+          keyExtractor={item => item.article_id.toString()}
+          renderItem={({item}) => (
+            <NewsCardX
+              title={item.title}
+              link={item.link}
+              image_url={item.image_url}
+            />
+          )}
+        />
       </SafeAreaView>
       <SafeAreaView>
         <Text className="text-xl font-bold text-red-800 m-2">Scams!</Text>
-        <ScrollView horizontal={true} className="m-1">
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-          <NewsCardX />
-        </ScrollView>
+        <ScrollView horizontal={true} className="m-1"></ScrollView>
       </SafeAreaView>
 
       <Text className="text-lg font-bold text-blue-800 mx-2"> Latest </Text>
