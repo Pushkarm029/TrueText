@@ -39,7 +39,7 @@ const Sms = () => {
     setLoading(true);
     const filter = {
       box: 'inbox',
-      maxCount: 150,
+      maxCount: 90,
     };
     SmsAndroid.list(
       JSON.stringify(filter),
@@ -97,7 +97,7 @@ const Sms = () => {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             data={smsMessages}
-            initialNumToRender={100}
+            initialNumToRender={40}
             maxToRenderPerBatch={50}
             ListFooterComponent={() => loading && <ActivityIndicator />}
             keyExtractor={item => item._id.toString()}
