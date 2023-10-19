@@ -12,6 +12,8 @@ import java.util.List;
 // react-native-splash-screen >= 0.3.1
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.react.SmsPackage;
+import com.lugg.RNCConfig.RNCConfigPackage;
+
 
 
 
@@ -33,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
            new SplashScreenReactPackage();  //here
            new SmsPackage();
+           new RNCConfigPackage();
           return packages;
         }
 

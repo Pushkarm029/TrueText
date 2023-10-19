@@ -12,8 +12,11 @@ import NewsCardY from '../components/NewsCardY';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 
-const API_KEY = 'pub_31460f6837fbe6e5985d855312f8f03faf51b';
-const API_KEY_newsapi = '9b954e249b4c4717b68f72e8f14c4f15';
+import Config from 'react-native-config';
+
+// Access your API keys like this:
+const API_KEY = Config.API_KEY;
+const API_KEY_newsapi = Config.API_KEY_newsapi;
 
 const News = () => {
   const [trendingNews, settrendingNews] = useState([]);
@@ -84,6 +87,8 @@ const News = () => {
   const onRefresh = async () => {
     setRefreshing(true);
     fetchTrendNews();
+    fetchScamNews();
+    fetchLatestNews();
     setRefreshing(false);
   };
 
