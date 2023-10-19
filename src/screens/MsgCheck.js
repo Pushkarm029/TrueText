@@ -1,35 +1,37 @@
-import React from 'react';
-import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
 
 const MsgCheck = () => {
-  const [text, onChangeText] = React.useState('Useless Text');
-  const [number, onChangeNumber] = React.useState('');
+  const [inputText, setInputText] = useState('');
+
+  const handleButtonPress = () => {
+    console.log(inputText); // Log the input text
+  };
 
   return (
-    <SafeAreaView>
+    <View className="m-2 p-2">
+      <Text className="text-lg font-semibold p-1">Enter Your Message </Text>
       <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
+        placeholder="Paste your text here"
+        multiline={true}
+        numberOfLines={9}
+        onChangeText={text => setInputText(text)}
+        value={inputText}
+        className="text-start border border-slate-400 bg-slate-300 p-1"
+        style={{textAlignVertical: 'top'}}
       />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeNumber}
-        value={number}
-        placeholder="useless placeholder"
-        keyboardType="numeric"
-      />
-    </SafeAreaView>
+      <View className="m-2 w-40 px-3 text-center mx-auto">
+        <TouchableOpacity
+          onPress={handleButtonPress}
+          className=" bg-[#0096FF] rounded-xl text-center p-3 ">
+          <Text className="text-xl text-gray-100 text-center my-auto">
+            {' '}
+            Validate
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-});
 
 export default MsgCheck;

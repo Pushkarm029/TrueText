@@ -95,6 +95,7 @@ const BottomTab = () => {
         initialRouteName="Sms"
         screenOptions={{
           headerTintColor: '#0096FF',
+          tabBarHideOnKeyboard: true,
           tabBarShowLabel: false,
           tabBarStyle: {
             height: 50,
