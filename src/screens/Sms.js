@@ -81,7 +81,7 @@ const Sms = () => {
               <Button title="Open App Settings" onPress={openAppSettings} />
               <Text className="text-md p-5 text-gray-200">
                 {' '}
-                Settings > TrueText > Permissions > SMS{' '}
+                Settings {'>'} TrueText {'> '}Permissions {'>'} SMS{' '}
               </Text>
             </View>
           </View>
