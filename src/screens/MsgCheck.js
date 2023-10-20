@@ -5,7 +5,30 @@ const MsgCheck = () => {
   const [inputText, setInputText] = useState('');
 
   const handleButtonPress = () => {
-    console.log(inputText); // Log the input text
+    processToBackend(inputText);
+    console.log(inputText);
+  };
+
+  const processToBackend = async (userData) => {
+    try {
+      const response = await fetch(`/api`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        console.log('Data posted successfully to the backend!');
+        console.log(response);
+        //show response below
+      } else {
+        console.error('Error posting data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error posting data:', error);
+    }
   };
 
   return (

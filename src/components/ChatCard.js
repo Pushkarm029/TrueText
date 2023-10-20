@@ -10,7 +10,7 @@ import {
 const ChatCard = ({name, msg, id, dateTime, spam}) => {
   //first letter of the name for the profile picture
   const firstCharacterIsAlphabet = /^[A-Za-z]/.test(name.charAt(0));
-  const profilePicture = firstCharacterIsAlphabet ? name.charAt(0) : '?';
+  const profilePicture = firstCharacterIsAlphabet ? name.charAt(0) : spam ? '!' : '?';
 
   const DateOrTime = timestamp => {
     const messageDate = new Date(parseInt(timestamp, 10));
@@ -66,7 +66,10 @@ const ChatCard = ({name, msg, id, dateTime, spam}) => {
     if (char in colors) {
       return colors[char];
     }
-    return '#FF474C';
+    else if(char == '!'){
+      return '#FF0808'
+    }
+    return '#50AD14';
   }
   //   Profile pic random color
   const backgroundColor = spam ? getAlphabeticColor(profilePicture.toLowerCase()) : "red";

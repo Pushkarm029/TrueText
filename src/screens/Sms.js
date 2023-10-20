@@ -50,10 +50,34 @@ const Sms = () => {
         console.log('Count: ', count);
         console.log('List: ', smsList);
         const arr = JSON.parse(smsList);
+        // processToBackend()
+        //post to back
         setSmsMessages(arr);
         setLoading(false); // Set loading to false after fetching data
       },
     );
+  };
+
+  const processToBackend = async (userData) => {
+    try {
+      const response = await fetch(`/api`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        console.log('Data posted successfully to the backend!');
+        console.log(response);
+        //show response below
+      } else {
+        console.error('Error posting data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error posting data:', error);
+    }
   };
 
   const onRefresh = async () => {
@@ -97,7 +121,7 @@ const Sms = () => {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             data={smsMessages}
-            initialNumToRender={40}
+            initialNumToRender={10}
             maxToRenderPerBatch={50}
             ListFooterComponent={() => loading && <ActivityIndicator />}
             keyExtractor={item => item._id.toString()}
@@ -107,6 +131,7 @@ const Sms = () => {
                 msg={item.body}
                 id={item._id}
                 dateTime={item.date}
+                spam={spam} //response from backend
               />
             )}
           />
