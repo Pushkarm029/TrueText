@@ -65,8 +65,10 @@ const Sms = () => {
     for (const item of arr) {
       try {
         const response = await processToBackend({body: item.body});
-
-        if (response.ok) {
+        if(response == null){
+          console.error('No Internet Connection');
+        }
+        else if (response.ok) {
           const responseBody = await response.json();
           item.spam = responseBody.spam; // Assuming you receive the 'spam' value in the response
           processedArray.push(item);
