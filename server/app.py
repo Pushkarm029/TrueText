@@ -6,7 +6,7 @@ from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 from flask_cors import CORS
 
-app = Flask(_name_)
+app = Flask(__name__)
 CORS(app)
 
 # Load the Multinomial Naive Bayes model and preprocessing objects
@@ -52,6 +52,6 @@ def classify_sms_api():
     except Exception as e:
         return jsonify({'error': str(e)})
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     print("Starting Python Flask Server For Sports Celebrity Image Classification")
     app.run(port=5000)
