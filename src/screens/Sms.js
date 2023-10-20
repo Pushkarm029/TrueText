@@ -29,7 +29,7 @@ const Sms = () => {
       listSmsMessages();
     } else {
       setPermissionGranted(false);
-      setLoading(false); // Set loading to false when permission is not granted
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -97,7 +97,7 @@ const Sms = () => {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             data={smsMessages}
-            initialNumToRender={40}
+            initialNumToRender={10}
             maxToRenderPerBatch={50}
             ListFooterComponent={() => loading && <ActivityIndicator />}
             keyExtractor={item => item._id.toString()}

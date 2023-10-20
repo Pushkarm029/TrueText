@@ -7,7 +7,6 @@ from nltk.corpus import stopwords
 
 app = Flask(__name__)
 
-# Load the Multinomial Naive Bayes model and preprocessing objects
 with open('sms_spam_model.pkl', 'rb') as model_file:
     model = pickle.load(model_file)
 
@@ -17,7 +16,6 @@ with open('preprocessing_objects.pkl', 'rb') as preprocessing_file:
     stem = preprocessing_objects['stemmer']
     cv = preprocessing_objects['count_vectorizer']
 
-# Define a function to preprocess and classify SMS messages
 def classify_sms(sms_message):
     senti = re.sub('[^A-Za-z]', ' ', sms_message)
     senti = senti.lower()
@@ -28,7 +26,6 @@ def classify_sms(sms_message):
     prediction = model.predict(sms_vector)
     return le.inverse_transform(prediction)[0]
 
-# API endpoint to receive SMS messages
 @app.route('/api', methods=['POST'])
 def classify_sms_api():
     try:
