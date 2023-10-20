@@ -4,8 +4,10 @@ import re
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
+from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(_name_)
+CORS(app)
 
 # Load the Multinomial Naive Bayes model and preprocessing objects
 with open('sms_spam_model.pkl', 'rb') as model_file:
@@ -26,7 +28,12 @@ def classify_sms(sms_message):
     senti = ' '.join(word)
     sms_vector = cv.transform([senti]).toarray()
     prediction = model.predict(sms_vector)
-    return le.inverse_transform(prediction)[0]
+    hamOrSpam = le.inverse_transform(prediction)[0]
+    
+    if hamOrSpam == 'spam':
+        return True  # It's spam
+    else:
+        return False  # It's not spam
 
 # API endpoint to receive SMS messages
 @app.route('/api', methods=['POST'])
@@ -37,8 +44,7 @@ def classify_sms_api():
             sms_message = data['message']
             prediction = classify_sms(sms_message)
             response = {
-                'message': sms_message,
-                'classification': prediction
+                'result': prediction
             }
             return jsonify(response)
         else:
@@ -46,6 +52,6 @@ def classify_sms_api():
     except Exception as e:
         return jsonify({'error': str(e)})
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     print("Starting Python Flask Server For Sports Celebrity Image Classification")
     app.run(port=5000)

@@ -9,9 +9,9 @@ const MsgCheck = () => {
     console.log(inputText);
   };
 
-  const processToBackend = async (userData) => {
+  const processToBackend = async userData => {
     try {
-      const response = await fetch(`/api`, {
+      const response = await fetch('/api', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -19,15 +19,10 @@ const MsgCheck = () => {
         body: JSON.stringify(userData),
       });
 
-      if (response.ok) {
-        console.log('Data posted successfully to the backend!');
-        console.log(response);
-        //show response below
-      } else {
-        console.error('Error posting data:', response.statusText);
-      }
+      return response;
     } catch (error) {
       console.error('Error posting data:', error);
+      return null;
     }
   };
 

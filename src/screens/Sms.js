@@ -35,6 +35,7 @@ const Sms = () => {
   useEffect(() => {
     checkAndRequestSmsPermission();
   }, []);
+
   const listSmsMessages = () => {
     setLoading(true);
     const filter = {
@@ -46,21 +47,43 @@ const Sms = () => {
       fail => {
         console.log('Failed with this error: ' + fail);
       },
-      (count, smsList) => {
+      async (count, smsList) => {
         console.log('Count: ', count);
         console.log('List: ', smsList);
         const arr = JSON.parse(smsList);
-        // processToBackend()
-        //post to back
-        setSmsMessages(arr);
-        setLoading(false); // Set loading to false after fetching data
+        const processedArray = await processingAndPostToBackend(arr);
+        console.log(processedArray);
+        setSmsMessages(processedArray);
+        setLoading(false);
       },
     );
   };
 
-  const processToBackend = async (userData) => {
+  const processingAndPostToBackend = async arr => {
+    const processedArray = [];
+
+    for (const item of arr) {
+      try {
+        const response = await processToBackend({body: item.body});
+
+        if (response.ok) {
+          const responseBody = await response.json();
+          item.spam = responseBody.spam; // Assuming you receive the 'spam' value in the response
+          processedArray.push(item);
+        } else {
+          console.error('Error posting data:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error posting data:', error);
+      }
+    }
+
+    return processedArray;
+  };
+
+  const processToBackend = async userData => {
     try {
-      const response = await fetch(`/api`, {
+      const response = await fetch('/api', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,15 +91,10 @@ const Sms = () => {
         body: JSON.stringify(userData),
       });
 
-      if (response.ok) {
-        console.log('Data posted successfully to the backend!');
-        console.log(response);
-        //show response below
-      } else {
-        console.error('Error posting data:', response.statusText);
-      }
+      return response;
     } catch (error) {
       console.error('Error posting data:', error);
+      return null;
     }
   };
 
@@ -131,7 +149,7 @@ const Sms = () => {
                 msg={item.body}
                 id={item._id}
                 dateTime={item.date}
-                spam={spam} //response from backend
+                spam={item.spam} //response from backend
               />
             )}
           />
