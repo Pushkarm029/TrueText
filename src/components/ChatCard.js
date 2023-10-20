@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-const ChatCard = ({name, msg, id, dateTime}) => {
+const ChatCard = ({name, msg, id, dateTime, spam}) => {
   //first letter of the name for the profile picture
   const firstCharacterIsAlphabet = /^[A-Za-z]/.test(name.charAt(0));
   const profilePicture = firstCharacterIsAlphabet ? name.charAt(0) : '?';
@@ -69,7 +69,7 @@ const ChatCard = ({name, msg, id, dateTime}) => {
     return '#FF474C';
   }
   //   Profile pic random color
-  const backgroundColor = getAlphabeticColor(profilePicture.toLowerCase());
+  const backgroundColor = spam ? getAlphabeticColor(profilePicture.toLowerCase()) : "red";
 
   // first 55 characters in msgs
   const truncatedMsg = msg.length > 55 ? msg.slice(0, 55) + '...' : msg;
@@ -81,6 +81,7 @@ const ChatCard = ({name, msg, id, dateTime}) => {
       name: name,
       msg: msg,
       dateTime: dateTime,
+      spam: spam
     });
   };
   return (
