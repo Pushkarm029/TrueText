@@ -4,12 +4,21 @@ import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
 const MsgCheck = () => {
   const [inputText, setInputText] = useState('');
 
-  const handleButtonPress = () => {
-    processToBackend(inputText);
-    console.log(inputText);
+  const handleButtonPress = async () => {
+    try {
+      const response = await processToBackend(inputText);
+      console.log(inputText);
+
+      if (response) {
+        const responseData = await response.json();
+        console.log('Response from the backend:', responseData);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
-  const processToBackend = async userData => {
+  const processToBackend = async (userData) => {
     try {
       const response = await fetch('/api', {
         method: 'POST',

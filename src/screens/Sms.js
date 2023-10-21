@@ -29,48 +29,56 @@ const Sms = () => {
       listSmsMessages();
     } else {
       setPermissionGranted(false);
-      setLoading(false); // Set loading to false when permission is not granted
+      setLoading(false);
     }
   };
   useEffect(() => {
     checkAndRequestSmsPermission();
   }, []);
 
-  const listSmsMessages = () => {
+  const listSmsMessages = async () => {
     setLoading(true);
     const filter = {
       box: 'inbox',
       maxCount: 90,
     };
-    SmsAndroid.list(
-      JSON.stringify(filter),
-      fail => {
-        console.log('Failed with this error: ' + fail);
-      },
-      async (count, smsList) => {
-        console.log('Count: ', count);
-        console.log('List: ', smsList);
-        const arr = JSON.parse(smsList);
-        const processedArray = await processingAndPostToBackend(arr);
-        console.log(processedArray);
-        setSmsMessages(processedArray);
-        setLoading(false);
-      },
-    );
+    try {
+      const smsList = await new Promise((resolve, reject) => {
+        SmsAndroid.list(
+          JSON.stringify(filter),
+          fail => {
+            console.log('Failed with this error: ' + fail);
+            reject(fail);
+          },
+          (count, smsList) => {
+            console.log('Count: ', count);
+            console.log('List: ', smsList);
+            const arr = JSON.parse(smsList);
+            resolve(arr);
+          },
+        );
+      });
+  
+      const processedArray = await processingAndPostToBackend(smsList);
+      console.log(processedArray);
+      setSmsMessages(processedArray);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error while listing SMS messages:', error);
+    }
   };
-
+  
   const processingAndPostToBackend = async arr => {
     const processedArray = [];
-
+  
     for (const item of arr) {
       try {
-        const response = await processToBackend({body: item.body});
-        if(response == null){
+        const response = await processToBackend({ body: item.body });
+        if (response == null) {
           console.error('No Internet Connection');
-        }
-        else if (response.ok) {
+        } else if (response.ok) {
           const responseBody = await response.json();
-          item.spam = responseBody.spam; // Assuming you receive the 'spam' value in the response
+          item.spam = responseBody.spam;
           processedArray.push(item);
         } else {
           console.error('Error posting data:', response.statusText);
@@ -79,10 +87,10 @@ const Sms = () => {
         console.error('Error posting data:', error);
       }
     }
-
+  
     return processedArray;
   };
-
+  
   const processToBackend = async userData => {
     try {
       const response = await fetch('/api', {
@@ -92,7 +100,7 @@ const Sms = () => {
         },
         body: JSON.stringify(userData),
       });
-
+  
       return response;
     } catch (error) {
       console.error('Error posting data:', error);
