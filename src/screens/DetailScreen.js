@@ -9,13 +9,19 @@ const formatDate = timestamp => {
 };
 
 const DetailScreen = ({route}) => {
-  const {id, name, msg, dateTime} = route.params;
+  const {id, name, msg, dateTime, spam} = route.params;
+  const bgColor = spam ? '#da2c38' : '#b3bfb8';
+  const txtColor = spam ? '#fff' : '#1a1a1a';
   return (
     <View className="h-screen ">
-      <View className="mx-auto my-auto h-fit bg-slate-300 p-3 m-6 rounded-lg">
+      <View
+        className="mx-auto my-auto h-fit p-3 m-6 rounded-lg"
+        style={{backgroundColor: bgColor}}>
         <View>
-          <Text className="text-lg text-slate-800 p-1">From: {name}</Text>
-          <Text className="text-sm text-slate-800 p-1">
+          <Text className="text-lg p-1" style={{color: txtColor}}>
+            From: {name}
+          </Text>
+          <Text className="text-sm p-1" style={{color: txtColor}}>
             Date: {formatDate(dateTime)}
           </Text>
         </View>
@@ -23,6 +29,15 @@ const DetailScreen = ({route}) => {
         <View className="mx-auto bg-slate-700 m-2 rounded-2xl ">
           <Text className="text-md text-white m-2 p-1">{msg}</Text>
         </View>
+      </View>
+      <View>
+        {spam ? (
+          <Text className=" mx-auto  font-bold text-2xl w-fit text-[#da2c38]">
+            Caution!
+          </Text>
+        ) : (
+          <Text></Text>
+        )}
       </View>
     </View>
   );

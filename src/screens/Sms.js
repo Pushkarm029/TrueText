@@ -40,7 +40,7 @@ const Sms = () => {
     setLoading(true);
     const filter = {
       box: 'inbox',
-      maxCount: 90,
+      maxCount: 30,
     };
     try {
       const smsList = await new Promise((resolve, reject) => {
@@ -58,28 +58,34 @@ const Sms = () => {
           },
         );
       });
-  
+
       const processedArray = await processingAndPostToBackend(smsList);
-      console.log(processedArray);
       setSmsMessages(processedArray);
       setLoading(false);
     } catch (error) {
       console.error('Error while listing SMS messages:', error);
     }
   };
-  
+
   const processingAndPostToBackend = async arr => {
     const processedArray = [];
-  
+
     for (const item of arr) {
       try {
-        const response = await processToBackend({ body: item.body });
+        const response = await processToBackend({message: item.body});
         if (response == null) {
           console.error('No Internet Connection');
         } else if (response.ok) {
           const responseBody = await response.json();
-          item.spam = responseBody.spam;
+          console.log('res from back', responseBody.result);
+          if (responseBody.result == true) {
+            item.spam = true;
+          } else {
+            item.spam = false;
+          }
+
           processedArray.push(item);
+          console.log(processedArray.result);
         } else {
           console.error('Error posting data:', response.statusText);
         }
@@ -87,20 +93,22 @@ const Sms = () => {
         console.error('Error posting data:', error);
       }
     }
-  
+
     return processedArray;
   };
-  
+
   const processToBackend = async userData => {
     try {
-      const response = await fetch('/api', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'http://aiflask.ap-south-1.elasticbeanstalk.com/api',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
         },
-        body: JSON.stringify(userData),
-      });
-  
+      );
       return response;
     } catch (error) {
       console.error('Error posting data:', error);

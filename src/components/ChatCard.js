@@ -8,9 +8,14 @@ import {
   RefreshControl,
 } from 'react-native';
 const ChatCard = ({name, msg, id, dateTime, spam}) => {
+  console.log('profile', spam);
   //first letter of the name for the profile picture
   const firstCharacterIsAlphabet = /^[A-Za-z]/.test(name.charAt(0));
-  const profilePicture = firstCharacterIsAlphabet ? name.charAt(0) : spam ? '!' : '?';
+  const profilePicture = firstCharacterIsAlphabet
+    ? name.charAt(0)
+    : spam
+    ? '!'
+    : '?';
 
   const DateOrTime = timestamp => {
     const messageDate = new Date(parseInt(timestamp, 10));
@@ -65,14 +70,13 @@ const ChatCard = ({name, msg, id, dateTime, spam}) => {
     };
     if (char in colors) {
       return colors[char];
-    }
-    else if(char == '!'){
-      return '#FF0808'
+    } else if (char === '!') {
+      return '#FF0808';
     }
     return '#50AD14';
   }
   //   Profile pic random color
-  const backgroundColor = spam ? getAlphabeticColor(profilePicture.toLowerCase()) : "red";
+  const backgroundColor = getAlphabeticColor(profilePicture.toLowerCase());
 
   // first 55 characters in msgs
   const truncatedMsg = msg.length > 55 ? msg.slice(0, 55) + '...' : msg;
@@ -84,7 +88,7 @@ const ChatCard = ({name, msg, id, dateTime, spam}) => {
       name: name,
       msg: msg,
       dateTime: dateTime,
-      spam: spam
+      spam: spam,
     });
   };
   return (
